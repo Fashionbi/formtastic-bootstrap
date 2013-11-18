@@ -5,11 +5,7 @@ module FormtasticBootstrap
         include Formtastic::Inputs::Base::Placeholder
 
         def placeholder_text
-          if options[:placeholder] == false
-            nil
-          else
-            humanized_method_name
-          end
+          options[:placeholder].presence || nil
         end
       end
     end
