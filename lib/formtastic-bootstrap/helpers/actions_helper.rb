@@ -20,10 +20,9 @@ module FormtasticBootstrap
         contents = contents.join if contents.respond_to?(:join)
 
         legend = field_set_legend(html_options)
-        div = template.content_tag(:div,
+        div = template.content_tag(:fieldset,
           template.content_tag(:div,
-            Formtastic::Util.html_safe(legend) << Formtastic::Util.html_safe(contents),
-            class: "col-offset-3 col-9"),
+            Formtastic::Util.html_safe(legend) << Formtastic::Util.html_safe(contents)),
           html_options.except(:builder, :parent, :name)
         )
 
@@ -33,7 +32,7 @@ module FormtasticBootstrap
       def actions(*args, &block)
 
         html_options = args.extract_options!
-        html_options[:class] ||= "form-group"
+        html_options[:class] ||= "form-actions"
 
         if block_given?
           action_wrapping(html_options, &block)

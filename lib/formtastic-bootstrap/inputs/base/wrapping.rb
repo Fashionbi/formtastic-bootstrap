@@ -53,16 +53,7 @@ module FormtasticBootstrap
         end
 
         def controls_wrapper_html_options(args)
-          if args[:label]
-            {
-              :class => "col-9"
-            }
-          else
-            # Add left offset if there are no labels
-            {
-              :class => "col-offset-3 col-9"
-            }
-          end
+          {}
         end
 
         def wrapper_html_options
