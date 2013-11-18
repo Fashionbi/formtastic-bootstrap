@@ -23,7 +23,7 @@ module FormtasticBootstrap
         div = template.content_tag(:div,
           template.content_tag(:div,
             Formtastic::Util.html_safe(legend) << Formtastic::Util.html_safe(contents),
-            class: "col-lg-offset-3 col-lg-9"),
+            class: "col-offset-3 col-9"),
           html_options.except(:builder, :parent, :name)
         )
 

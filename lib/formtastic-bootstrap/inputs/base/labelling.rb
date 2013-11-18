@@ -15,7 +15,7 @@ module FormtasticBootstrap
 
         def control_label_html_options
           label_html_options.tap do |options|
-            options[:class] << "col-lg-3 control-label"
+            options[:class] << "col-3 control-label"
           end
         end
 
