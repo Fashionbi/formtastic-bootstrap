@@ -22,7 +22,7 @@ module FormtasticBootstrap
               check_box_with_hidden_input(choice) :
               check_box_without_hidden_input(choice) <<
             choice_label(choice),
-            label_html_options.merge(choice_label_html_options(choice))
+              label_html_options.delete(:class).merge(choice_label_html_options(choice))
           )
         end
       end
