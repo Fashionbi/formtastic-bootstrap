@@ -2,50 +2,54 @@ module FormtasticBootstrap
   module Inputs
     module Base
       module Timeish
+        FRAGMENT_CLASSES = {
+          :year   => "col-2",
+          :month  => "col-3",
+          :day    => "col-1",
+          :hour   => "col-offset-3 col-1",
+          :minute => "col-1",
+          :second => "col-1"
+        }
 
         def to_html
-          control_group_wrapping do
-            control_label_html <<
-            controls_wrapping do
-              hidden_fragments <<
+          bootstrap_wrapping do
+            hidden_fragments <<
+            row_wrapping do
               fragments.map do |fragment|
-                fragment_input_html(fragment.to_sym)
+                fragment_html(fragment.to_sym)
               end.join.html_safe
             end
           end
         end
 
-        def controls_wrapper_html_options(args)
-          super.tap do |options|
-            options[:class] = (options[:class].split << "controls-row").join(" ")
-          end
+        def row_wrapping(&block)
+          template.content_tag(:div,
+            template.capture(&block).html_safe,
+            :class => 'row'
+          )
         end
 
-        def fragment_input_html(fragment)
-          opts = input_options.merge(:prefix => fragment_prefix, :field_name => fragment_name(fragment), :default => value, :include_blank => include_blank?)
-          template.send(:"select_#{fragment}", value, opts, fragment_input_html_options(fragment))
+        def fragment_html(fragment)
+          template.content_tag(:div, :class => fragment_class(fragment)) do
+            opts = input_options.merge(:prefix => fragment_prefix, :field_name => fragment_name(fragment), :default => value, :include_blank => include_blank?)
+            template.send(:"select_#{fragment}", value, opts, fragment_input_html_options(fragment))
+          end
         end
 
         def fragment_input_html_options(fragment)
           input_html_options.tap do |options|
             options[:id] = fragment_id(fragment)
-            options[:class] = ((options[:class] || "").split << fragment_class(fragment)).join(" ")
+            options[:class] = ((options[:class] || "").split << "form-control").join(" ")
             options[:placeholder] = fragment_placeholder(fragment)
           end
         end
 
         def fragment_class(fragment)
-          {
-            :year   => "span1",
-            :month  => "span2",
-            :day    => "span1",
-            :hour   => "span1",
-            :minute => "span1",
-            :second => "span1"
-          }[fragment]
+          options[:fragment_classes] || self.class::FRAGMENT_CLASSES[fragment]
         end
 
         def fragment_placeholder(fragment)
+          # TODO This sets a useless placeholer right now.
           "." + fragment_class(fragment)
         end
 
